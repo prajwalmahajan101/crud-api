@@ -9,7 +9,7 @@ import { JWTAuthGuard, GetUser } from '@/auth/decorator';
 export class UserController {
   @Get('me')
   @JWTAuthGuard()
-  getMe(@GetUser() user: User) {
+  getMe(@GetUser() user: User): { user: User } {
     return { user };
   }
 }
