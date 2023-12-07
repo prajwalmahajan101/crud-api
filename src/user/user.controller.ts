@@ -2,9 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
-import { JWTAuthGuard } from '@/auth/decorator';
-
-import { GetUser } from './decorator';
+import { JWTAuthGuard, GetUser } from '@/auth/decorator';
 
 @ApiTags('Users')
 @Controller('users')
