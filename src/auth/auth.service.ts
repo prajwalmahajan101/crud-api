@@ -1,11 +1,14 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import * as argon from 'argon2';
-import { PrismaService } from '../prisma/prisma.service';
-import { AuthDto } from './dto';
-import { User } from '@prisma/client';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { User } from '@prisma/client';
+import * as argon from 'argon2';
+
+import { PrismaService } from '@/prisma/prisma.service';
+
+import { AuthDto } from './dto';
+import { IPayload } from './interface';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +20,7 @@ export class AuthService {
 
   async signIn(dto: AuthDto) {
     // Find User
-    const user = await this.prisma.user.findUnique({
+    const user: User = await this.prisma.user.findUnique({
       where: {
         email: dto.email,
       },
@@ -59,7 +62,7 @@ export class AuthService {
   }
 
   #signToken(userId: number, email: string): Promise<string> {
-    const payload = {
+    const payload: IPayload = {
       sub: userId,
       email,
     };
