@@ -7,10 +7,13 @@ import { EditUserDto } from '@/user/dto';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  editUser(id: number, data: EditUserDto): Promise<User> {
-    return this.prisma.user.update({
+  async editUser(id: number, data: EditUserDto): Promise<User> {
+    const user: User = await this.prisma.user.update({
       where: { id },
       data,
     });
+    // @ts-ignore
+    delete user.hash;
+    return user;
   }
 }

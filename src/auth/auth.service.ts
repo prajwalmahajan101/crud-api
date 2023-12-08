@@ -20,7 +20,7 @@ export class AuthService {
 
   async signIn(dto: AuthDto) {
     // Find User
-    const user: User = await this.prisma.user.findUnique({
+    const user: User | null = await this.prisma.user.findUnique({
       where: {
         email: dto.email,
       },
@@ -49,6 +49,7 @@ export class AuthService {
         },
       });
 
+      // @ts-ignore
       delete user.hash;
       // return the saved User
       return { user };

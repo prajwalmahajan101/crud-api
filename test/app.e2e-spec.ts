@@ -5,6 +5,7 @@ import * as pactum from 'pactum';
 import { AppModule } from '@/app.module';
 import { PrismaService } from '@/prisma/prisma.service';
 import { AuthDto } from '@/auth/dto';
+import { EditUserDto } from '@/user/dto';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -132,15 +133,35 @@ describe('App e2e', () => {
       });
     });
     describe('Edit User', () => {
-      it('Should Update User Email', () => {
+      const dto: EditUserDto = {
+        firstName: 'Prajwal',
+      };
+      it('Should Throw 400 When no Body is passed', () => {
         return pactum
           .spec()
           .patch('/users')
           .withBearerToken('$S{userAt}')
-          .withBody({
-            email: 'prajwal@gmail.com',
-          })
-          .expectStatus(200);
+          .expectStatus(400);
+      });
+      it('Should Throw 400 When invalid body is passed', () => {
+        return pactum
+          .spec()
+          .patch('/users')
+          .withBody({ firstName: 1 })
+          .withBearerToken('$S{userAt}')
+          .expectStatus(400);
+      });
+      it('Should Throw 401 When no token is passed', () => {
+        return pactum.spec().patch('/users').withBody(dto).expectStatus(401);
+      });
+      it('Should Update User', () => {
+        return pactum
+          .spec()
+          .patch('/users')
+          .withBearerToken('$S{userAt}')
+          .withBody(dto)
+          .expectStatus(200)
+          .expectBodyContains(dto.firstName);
       });
     });
   });

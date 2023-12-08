@@ -8,11 +8,16 @@ import { User } from '@prisma/client';
 import { AuthRequest } from '../interface';
 
 export const GetUser = createParamDecorator(
-  (data: string | undefined, ctx: ExecutionContext): User => {
+  (
+    data: 'id' | 'email' | undefined,
+    ctx: ExecutionContext,
+  ): User | string | number => {
     const request: AuthRequest = ctx.switchToHttp().getRequest();
-    const user = request.user;
+    const user: User | undefined = request.user;
     if (!user) throw new UnauthorizedException({ description: 'Unauthorized' });
-    if (data) return user[data];
+    if (data) {
+      return user[data];
+    }
     return user;
   },
 );

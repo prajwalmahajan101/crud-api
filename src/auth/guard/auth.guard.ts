@@ -31,12 +31,12 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwt.verifyAsync<IPayload>(token, {
         secret: this.config.get('JWT_SECRET'),
       });
-      const user: User = await this.prisma.user.findUnique({
+      const user: User | null = await this.prisma.user.findUnique({
         where: {
           id: payload.sub,
         },
       });
-      request.user = user;
+      request.user = user ?? undefined;
     } catch (err) {
       throw new UnauthorizedException('Invalid Token');
     }
