@@ -1,5 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiBody,
   ApiCreatedResponse,
   ApiForbiddenResponse,
@@ -17,6 +18,7 @@ export class AuthController {
 
   @Post('signup')
   @ApiBody({ type: AuthDto })
+  @ApiBadRequestResponse({ description: 'Invalid Input' })
   @ApiForbiddenResponse({ description: 'Credentials Taken' })
   @ApiCreatedResponse({ description: 'User Registered' })
   signUp(@Body() dto: AuthDto) {
@@ -26,6 +28,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('signin')
   @ApiBody({ type: AuthDto })
+  @ApiBadRequestResponse({ description: 'Invalid Input' })
   @ApiForbiddenResponse({ description: 'Credentials Incorrect' })
   @ApiOkResponse({ description: 'User Logged In' })
   signIn(@Body() dto: AuthDto) {
