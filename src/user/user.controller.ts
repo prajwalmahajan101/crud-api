@@ -17,6 +17,7 @@ import { User } from '@prisma/client';
 import { JWTAuthGuard, GetUser } from '@/auth/decorator';
 import { EditUserDto } from '@/user/dto';
 import { UserService } from '@/user/user.service';
+import { RemoveHash } from '@/user/interceptors';
 
 @JWTAuthGuard()
 @ApiTags('Users')
@@ -26,11 +27,12 @@ export class UserController {
   @Get('me')
   @ApiOperation({ summary: 'Get Logged In User' })
   @ApiOkResponse({ description: 'User Fetched' })
-  getMe(@GetUser() user: User): { user: User } {
-    return { user };
+  getMe(@GetUser() user: User): User {
+    return user;
   }
 
   @Patch('/')
+  @RemoveHash()
   @ApiOperation({ summary: 'Edit Logged In User' })
   @ApiBody({ type: EditUserDto })
   @ApiBadRequestResponse({ description: 'Invalid/No Body' })

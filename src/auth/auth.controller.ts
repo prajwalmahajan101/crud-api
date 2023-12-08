@@ -11,6 +11,7 @@ import {
 
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto';
+import { RemoveHash } from '@/user/interceptors';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -18,6 +19,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signup')
+  @RemoveHash()
   @ApiOperation({ summary: 'Sign Up' })
   @ApiBody({ type: AuthDto })
   @ApiBadRequestResponse({ description: 'Invalid Input' })

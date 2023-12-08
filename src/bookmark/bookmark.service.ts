@@ -42,7 +42,7 @@ export class BookmarkService {
     id: number,
     data: UpdateBookmarkDto,
   ): Promise<BookMark> {
-    const bookmark: BookMark = await this.findOne(userId, id);
+    await this.findOne(userId, id);
     return this.prisma.bookMark.update({
       where: { id },
       data: data,
@@ -50,7 +50,7 @@ export class BookmarkService {
   }
 
   async remove(userId: number, id: number): Promise<BookMark> {
-    const bookmark: BookMark = await this.findOne(userId, id);
+    await this.findOne(userId, id);
     return this.prisma.bookMark.delete({
       where: {
         id,

@@ -174,7 +174,14 @@ describe('App e2e', () => {
         description: 'testing description',
       };
 
-      it('Should create a bookmark', () => {});
+      it('Should create a bookmark', () => {
+        return pactum
+          .spec()
+          .post('/bookmarks')
+          .withBody(dto)
+          .withBearerToken('$S{userAt}')
+          .expectStatus(201);
+      });
     });
 
     describe('Get Bookmarks', () => {});
