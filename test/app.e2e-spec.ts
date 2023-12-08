@@ -6,6 +6,7 @@ import { AppModule } from '@/app.module';
 import { PrismaService } from '@/prisma/prisma.service';
 import { AuthDto } from '@/auth/dto';
 import { EditUserDto } from '@/user/dto';
+import { CreateBookmarkDto } from '@/bookmark/dto';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -166,7 +167,16 @@ describe('App e2e', () => {
     });
   });
   describe('Bookmark', () => {
-    describe('Create Bookmark', () => {});
+    describe('Create Bookmark', () => {
+      const dto: CreateBookmarkDto = {
+        title: 'Bookmark-1',
+        link: '/test/url/test',
+        description: 'testing description',
+      };
+
+      it('Should create a bookmark', () => {});
+    });
+
     describe('Get Bookmarks', () => {});
     describe('Get Bookmark by id', () => {});
     describe('Edit Bookmark', () => {});

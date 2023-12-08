@@ -5,6 +5,7 @@ import {
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 
@@ -17,6 +18,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signup')
+  @ApiOperation({ summary: 'Sign Up' })
   @ApiBody({ type: AuthDto })
   @ApiBadRequestResponse({ description: 'Invalid Input' })
   @ApiForbiddenResponse({ description: 'Credentials Taken' })
@@ -27,6 +29,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('signin')
+  @ApiOperation({ summary: 'Sign In' })
   @ApiBody({ type: AuthDto })
   @ApiBadRequestResponse({ description: 'Invalid Input' })
   @ApiForbiddenResponse({ description: 'Credentials Incorrect' })

@@ -5,7 +5,13 @@ import {
   Get,
   Patch,
 } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
 import { JWTAuthGuard, GetUser } from '@/auth/decorator';
@@ -18,11 +24,15 @@ import { UserService } from '@/user/user.service';
 export class UserController {
   constructor(private userService: UserService) {}
   @Get('me')
+  @ApiOperation({ summary: 'Get Logged In User' })
+  @ApiOkResponse({ description: 'User Fetched' })
   getMe(@GetUser() user: User): { user: User } {
     return { user };
   }
 
   @Patch('/')
+  @ApiOperation({ summary: 'Edit Logged In User' })
+  @ApiBody({ type: EditUserDto })
   @ApiBadRequestResponse({ description: 'Invalid/No Body' })
   @ApiOkResponse({ description: 'User Updated' })
   editUser(

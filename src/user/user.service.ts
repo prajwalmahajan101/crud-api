@@ -12,8 +12,6 @@ export class UserService {
       where: { id },
       data,
     });
-    // @ts-ignore
-    delete user.hash;
     return user;
   }
 }
